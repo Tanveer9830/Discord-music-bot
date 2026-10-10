@@ -1,0 +1,15 @@
+node_modules/
+.env
+.env.setup-*.tmp
+.env.*.local
+!.env.example
+/data/
+/logs/
+/backups/
+*.sqlite
+*.sqlite3
+*.db
+*.log
+npm-debug.log*
+.DS_Store
+coverage/

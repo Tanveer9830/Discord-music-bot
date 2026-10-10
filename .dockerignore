@@ -1,0 +1,10 @@
+.git
+node_modules
+.env
+.env.setup-*.tmp
+.env.*.local
+data
+logs
+backups
+coverage
+npm-debug.log*
