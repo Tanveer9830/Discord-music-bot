@@ -1,0 +1,29 @@
+services:
+  tanveer-prime-music:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: tanveer-prime-music:local
+    container_name: tanveer-prime-music
+    restart: unless-stopped
+    init: true
+    stop_grace_period: 20s
+    read_only: true
+    user: "${DOCKER_UID:-10001}:${DOCKER_GID:-10001}"
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      DEPLOYMENT_MODE: docker
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./backups:/app/backups
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 768m
+    # No ports are published. Connect to the existing Lavalink server over a private network.
