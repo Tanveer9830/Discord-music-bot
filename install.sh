@@ -327,7 +327,7 @@ main() {
   make_private_dirs
 
   info "Installing locked production dependencies."
-  npm ci --omit=dev --no-audit --no-fund
+  npm ci --ignore-scripts --omit=dev --no-audit --no-fund
   run_first_setup
   node scripts/db-init.js
   node scripts/check.js

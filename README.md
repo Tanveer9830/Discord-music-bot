@@ -27,7 +27,7 @@ On Ubuntu/Debian with Node.js 22.13+ and npm 10+ already installed, run:
 curl -fsSL 'https://raw.githubusercontent.com/Tanveer9830/Discord-music-bot/arena/9fd50881-discord-music-bot/install.sh' | bash
 ```
 
-The installer checks Linux/architecture and Node/npm versions, verifies the hard-coded GitHub origin and selected branch, preserves an existing `.env` and data, installs the locked production dependencies, initializes SQLite migrations, offers a masked first-run setup when a TTY is available, and deploys slash commands if Discord credentials are present. It does **not** install a new Lavalink server. It does not claim the bot is online unless a selected process manager starts it successfully.
+The installer checks Linux/architecture and Node/npm versions, verifies the hard-coded GitHub origin and selected branch, preserves an existing `.env` and data, installs the locked production dependencies, initializes SQLite migrations, offers a masked first-run setup when a TTY is available, and deploys slash commands if Discord credentials are present. Dependency installation uses `npm ci --ignore-scripts`: the pinned `better-sqlite3` package ships Linux x64/arm64 prebuilt binaries, so installs do not need to fetch Node headers or execute third-party lifecycle scripts. It does **not** install a new Lavalink server. It does not claim the bot is online unless a selected process manager starts it successfully.
 
 The default install directory is `~/tanveer-prime-music`. To install into a different empty directory, set `TANVEER_INSTALL_DIR`. The installer does not silently update a previous checkout; use the safe update procedure below. If changes are merged into `main`, the equivalent main-branch URL is `https://raw.githubusercontent.com/Tanveer9830/Discord-music-bot/main/install.sh`.
 
@@ -49,7 +49,7 @@ The installer prompts before privileged `apt` package installation, a global PM2
 git clone --branch arena/9fd50881-discord-music-bot --depth 1 \
   https://github.com/Tanveer9830/Discord-music-bot.git tanveer-prime-music
 cd tanveer-prime-music
-npm ci
+npm ci --ignore-scripts
 cp .env.example .env
 chmod 600 .env
 npm run setup
@@ -195,7 +195,7 @@ The updater refuses dirty source trees, fetches only the current trusted branch,
 ## Development and tests
 
 ```bash
-npm ci
+npm ci --ignore-scripts
 npm run check
 npm run lint
 npm test

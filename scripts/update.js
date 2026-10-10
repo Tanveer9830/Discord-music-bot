@@ -121,19 +121,19 @@ async function main() {
   try {
     git(["merge", "--ff-only", "--no-edit", "FETCH_HEAD"]);
     merged = true;
-    command("npm", ["ci"]);
+    command("npm", ["ci", "--ignore-scripts"]);
     command("node", ["scripts/check.js"]);
     command("npm", ["run", "lint"]);
     command("npm", ["test"]);
     command("npm", ["run", "db:init"]);
     if (config.environment === "production") {
-      command("npm", ["prune", "--omit=dev"]);
+      command("npm", ["prune", "--ignore-scripts", "--omit=dev"]);
     }
   } catch (error) {
     if (merged) {
       console.error("Update checks failed; attempting a fast, local rollback to the previous code revision. Configuration and data stay in place.");
       git(["reset", "--hard", oldSha]);
-      command("npm", ["ci"] , { allowFailure: true });
+      command("npm", ["ci", "--ignore-scripts"], { allowFailure: true });
     }
     throw error;
   }

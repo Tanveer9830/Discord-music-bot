@@ -42,7 +42,7 @@ Do not install or start Lavalink through this project. It connects to your exist
 
 ## Installing / updating in a panel
 
-If the panel permits Git and npm in the container, clone the repository into the server's persistent working directory and run `npm ci --omit=dev`. If system packages are unavailable, do not try to use `apt` or `systemd` inside the container; select a Pterodactyl Node image with the needed Node version and native build tools.
+If the panel permits Git and npm in the container, clone the repository into the server's persistent working directory and run `npm ci --ignore-scripts --omit=dev`. The locked `better-sqlite3` package includes prebuilt binaries for supported Linux x64/arm64 targets, so dependency lifecycle scripts are deliberately disabled. Select a supported Node 22/24 Linux image. If system packages are unavailable, do not try to use `apt` or `systemd` inside the container.
 
 After setting variables, initialize storage and register commands once:
 
@@ -53,6 +53,6 @@ npm run commands:deploy
 
 For guild-scoped development commands, set `DEV_GUILD_ID` before deployment. Global command changes may take time to propagate.
 
-To update safely, stop the server in the panel, make sure the working tree is clean, back up `data/music.sqlite`, update from the trusted branch, run `npm ci`, `npm test`, and `npm run db:init`, then start it again in the panel. The built-in `npm run update` can fast-forward a clean Git checkout, back up SQLite, run checks/migrations, and preserve `.env`/data, but it cannot restart a Pterodactyl server itself; use the panel to stop/start the process.
+To update safely, stop the server in the panel, make sure the working tree is clean, back up `data/music.sqlite`, update from the trusted branch, run `npm ci --ignore-scripts`, `npm test`, and `npm run db:init`, then start it again in the panel. The built-in `npm run update` can fast-forward a clean Git checkout, back up SQLite, run checks/migrations, and preserve `.env`/data, but it cannot restart a Pterodactyl server itself; use the panel to stop/start the process.
 
 24/7 voice reconnection is best effort. Discord, Lavalink, panel scheduling, container restarts, or a changed voice channel can interrupt it; no continuous-uptime guarantee is made.

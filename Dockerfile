@@ -11,7 +11,7 @@ RUN groupadd --system --gid 10001 musicbot \
     && chown -R musicbot:musicbot /app
 
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev --no-audit --no-fund \
+RUN npm ci --ignore-scripts --omit=dev --no-audit --no-fund \
     && npm cache clean --force
 
 COPY --chown=musicbot:musicbot src ./src
